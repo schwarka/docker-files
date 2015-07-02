@@ -7,7 +7,7 @@ set -e
 apt-get update && apt-get install -y curl
 
 # install rust and cargo (stable)
-curl -sSf https://static.rust-lang.org/rustup.sh | sh
+curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --disable-sudo -y
 
 # cleanup package manager
 apt-get remove --purge -y curl && apt-get autoclean && apt-get clean
