@@ -8,9 +8,10 @@ export SHELL=/bin/bash
 
 # prepare dirs to share with host
 mkdir /source
+mkdir /rustsrc
 
 # install curl (needed to install rust)
-apt-get update && apt-get install -y curl
+apt-get update && apt-get install -y curl file
 
 # install rust and cargo (stable)
 curl -sSL https://static.rust-lang.org/rustup.sh | sh -s -- --disable-sudo -y
@@ -22,8 +23,7 @@ _regex="^rust-([0-9]*\.[0-9]*\.[0-9]*)-.*"
 _version="${BASH_REMATCH[1]}"
 
 # download rust source code for use by dev tools
-curl -sSL https://static.rust-lang.org/dist/rustc-$_version-src.tar.gz | tar xvz -C /
+curl -sSLO https://static.rust-lang.org/dist/rustc-$_version-src.tar.gz
 
 # cleanup package manager
-apt-get remove --purge -y curl && apt-get autoclean && apt-get clean
-rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+apt-get remove --purge -y curl file $(apt-mark showauto) && apt-get autoclean && apt-get clean && rm -rf /var/lib/apt/lists/*

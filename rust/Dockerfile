@@ -1,8 +1,11 @@
-FROM ubuntu:latest
+FROM ubuntu-debootstrap:latest
 
-ADD install.sh install.sh
-RUN chmod +x install.sh && sync && ./install.sh && rm install.sh
+COPY install.sh install.sh
+COPY startup.sh startup.sh
+RUN chmod +x install.sh && chmod +x startup.sh && sync && ./install.sh && rm install.sh
 
 VOLUME ["/source"]
+VOLUME ["/rustsrc"]
 WORKDIR /source
-CMD ["bash"]
+
+CMD bash -C '/startup.sh';'bash'
