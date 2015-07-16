@@ -5,7 +5,7 @@ COPY startup.sh startup.sh
 RUN chmod +x install.sh && chmod +x startup.sh && sync && ./install.sh && rm install.sh
 
 VOLUME ["/source"]
-VOLUME ["/rustsrc"]
+VOLUME ["/rust-src"]
 WORKDIR /source
 
 CMD bash -C '/startup.sh';'bash'

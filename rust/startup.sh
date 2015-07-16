@@ -1,2 +1,2 @@
 #! /bin/bash
-tar -xvzf /*.tar.gz -C /rustsrc
+cp -a /rust-source-storage/* /rust-src
