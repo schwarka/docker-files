@@ -11,7 +11,8 @@ mkdir /source
 mkdir /rust-src
 
 # install curl (needed to install rust)
-apt-get update && apt-get install -y curl file
+apt-get update 
+apt-get install -y curl file
 
 # install rust and cargo (stable)
 curl -sSL https://static.rust-lang.org/rustup.sh | sh -s -- --disable-sudo -y
@@ -33,4 +34,7 @@ mv /tmp/rustc-$_version/src /rust-source-storage
 rm -rf /tmp/*
 
 # cleanup package manager
-apt-get remove --purge -y curl file $(apt-mark showauto) && apt-get autoclean && apt-get clean && rm -rf /var/lib/apt/lists/*
+apt-get remove --purge -y curl file $(apt-mark showauto)
+apt-get autoclean
+apt-get clean
+rm -rf /var/lib/apt/lists/*
