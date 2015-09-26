@@ -7,7 +7,7 @@ RUN tr -d '\r' < "install.sh" > temp && mv -f temp "install.sh"
 RUN chmod +x install.sh && sync
 RUN ./install.sh && rm install.sh
 
-VOLUME ["/source"]
-WORKDIR /source
+VOLUME ["/Users"]
+WORKDIR /Users
 
 CMD 'bash'

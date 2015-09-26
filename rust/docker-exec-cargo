@@ -1,0 +1,5 @@
+#! /bin/bash
+
+echo "$@">>CARGO.LOG
+eval "$(docker-machine env default)"
+docker exec rust cargo $@

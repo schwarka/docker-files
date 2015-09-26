@@ -7,7 +7,7 @@ set -e
 export SHELL=/bin/bash
 
 # prepare dirs to share with host
-mkdir /source
+mkdir /Users
 mkdir /usr/local/src/rust
 
 # install dependencies
