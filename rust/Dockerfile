@@ -2,12 +2,14 @@ FROM ubuntu-debootstrap:latest
 
 COPY install.sh install.sh
 
-RUN sync
-RUN tr -d '\r' < "install.sh" > temp && mv -f temp "install.sh"
-RUN chmod +x install.sh && sync
-RUN ./install.sh && rm install.sh
+RUN sync && \
+    tr -d '\r' < "install.sh" > temp && mv -f temp "install.sh" && \
+    sync && \
+    chmod +x install.sh && \
+    sync && \
+    ./install.sh && rm install.sh
 
-VOLUME ["/Users"]
-WORKDIR /Users
+VOLUME ["/code"]
+WORKDIR /code
 
 CMD 'bash'

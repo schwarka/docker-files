@@ -1,4 +1,0 @@
-#! /bin/bash
-
-currentDate=`date "+%F %T"`
-echo "$currentDate rustc $@">>RUSTC.LOG

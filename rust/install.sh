@@ -7,12 +7,12 @@ set -e
 export SHELL=/bin/bash
 
 # prepare dirs to share with host
-mkdir /Users
+mkdir /code
 mkdir /usr/local/src/rust
 
 # install dependencies
 apt-get update
-apt-get install -y curl file git gcc
+apt-get install -y curl file git gcc vim
 
 # install rust and cargo (stable)
 curl -sSL https://static.rust-lang.org/rustup.sh | sh -s -- --disable-sudo -y
@@ -49,6 +49,36 @@ rm -rf racer
 
 echo "Testing Racer..."
 racer complete std::io::B
+
+# setup vim
+mkdir -p ~/.vim/autoload ~/.vim/bundle && \
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+
+cd ~/.vim/bundle
+git clone --depth=1 https://github.com/scrooloose/syntastic.git
+git clone --depth=1 https://github.com/rust-lang/rust.vim.git
+git clone --depth=1 https://github.com/racer-rust/vim-racer.git
+cd /
+
+cat <<EOT >> ~/.vimrc
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+set number
+:inoremap jj <Esc>
+
+set hidden
+let g:racer_cmd = "/usr/bin/racer"
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+EOT
 
 # cleanup package manager
 apt-get remove --auto-remove --purge -y curl file git
