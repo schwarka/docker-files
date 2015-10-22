@@ -1,4 +1,5 @@
 # Rust
+This Docker image aims to build a self-contained Rust development environment. The only thing persisted to the host OS are the code files you create.
 
 ## What's in the box?
 * The latest stable version of [Rust and Cargo](https://www.rust-lang.org)
@@ -10,7 +11,7 @@
   * [syntastic](https://github.com/scrooloose/syntastic)
 
 ## How do I use it?
-Create the rust image by running the following command from the ``/rust`` directory:
+Create the rust image by running the following command from this directory:
 ```bash
 docker build -t rust .
 ```
