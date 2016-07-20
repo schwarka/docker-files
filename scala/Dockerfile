@@ -1,14 +1,15 @@
-FROM java:8
+FROM java:8-alpine
 
-ENV SCALA_VERSION 2.11.8
-ENV SCALA_TARBALL http://www.scala-lang.org/files/archive/scala-$SCALA_VERSION.deb
+ENV SCALA_VERSION=2.11.8
+ENV SCALA_FILE=scala-$SCALA_VERSION.tgz
+ENV SCALA_URL=http://downloads.lightbend.com/scala/$SCALA_VERSION/$SCALA_FILE
+ENV SCALA_HOME=/usr/share/scala 
 
 RUN echo "===== install helpers =====" && \
-    apt-get update && \
-    apt-get install -y curl && \
+    apk add --no-cache curl bash && \
     \
     echo "===== install vim =====" && \
-    apt-get install -y vim && \
+    apk add --no-cache vim && \
     \
     echo "===== install scala.vim syntax =====" && \
     mkdir -pv ~/.vim/ftdetect && \
@@ -23,13 +24,17 @@ RUN echo "===== install helpers =====" && \
     curl -#SLo ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim && \
     \
     echo "===== install scala =====" && \
-    curl -#SL $SCALA_TARBALL -o scala.deb && \
-    dpkg -i scala.deb && \
+    cd /tmp && \
+    curl -#SL $SCALA_URL -o $SCALA_FILE && \
+    tar xzf $SCALA_FILE && \
+    mkdir $SCALA_HOME && \
+    rm /tmp/scala-$SCALA_VERSION/bin/*.bat && \
+    mv /tmp/scala-$SCALA_VERSION/bin /tmp/scala-$SCALA_VERSION/lib $SCALA_HOME && \
+    ln -s $SCALA_HOME/bin/* /usr/bin/ && \
     \
     echo "===== cleanup =====" && \
     rm -f *.deb && \
-    apt-get remove -y --auto-remove curl && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    apk del curl && \
+    rm -rf /tmp/*
 
 CMD 'bash'
